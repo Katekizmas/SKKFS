@@ -39,15 +39,15 @@
             this.richTextBox1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox1.Location = new System.Drawing.Point(12, 12);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(2040, 414);
+            this.richTextBox1.Size = new System.Drawing.Size(681, 388);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
             // testas
             // 
-            this.testas.Location = new System.Drawing.Point(240, 432);
+            this.testas.Location = new System.Drawing.Point(12, 420);
             this.testas.Name = "testas";
-            this.testas.Size = new System.Drawing.Size(572, 98);
+            this.testas.Size = new System.Drawing.Size(209, 92);
             this.testas.TabIndex = 1;
             this.testas.Text = "Testas";
             this.testas.UseVisualStyleBackColor = true;
@@ -59,9 +59,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(884, 432);
+            this.button1.Location = new System.Drawing.Point(480, 420);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(201, 98);
+            this.button1.Size = new System.Drawing.Size(199, 92);
             this.button1.TabIndex = 2;
             this.button1.Text = "Pasirinkti failą";
             this.button1.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2064, 562);
+            this.ClientSize = new System.Drawing.Size(707, 539);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.testas);
             this.Controls.Add(this.richTextBox1);

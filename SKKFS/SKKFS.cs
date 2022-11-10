@@ -29,7 +29,7 @@ namespace SKKFS
 
         private void testas_Click(object sender, EventArgs e)
         {
-
+            ReadAndSaveFileUsingBinaryTest();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -262,6 +262,16 @@ namespace SKKFS
             string strJson = JsonSerializer.Serialize<IList<T>>(list, opt);
 
             File.WriteAllText($"{_workingDirectory}/{fileName}", strJson);
+        }
+
+        public void ReadAndSaveFileUsingBinaryTest()
+        {
+            var failasIn = "Paulius_Norkus_Resume.docx";
+            var failasOut = "Paulius_Norkus_Resume-out.docx";
+
+            var binaryString = Helper.ReadFileToBinaryString(_workingDirectory, failasIn);
+
+            Helper.WriteBinaryStringToFile(_workingDirectory, failasOut, binaryString);
         }
     }
 }

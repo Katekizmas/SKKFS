@@ -20,16 +20,17 @@ namespace SKKFS
         private void SKKFS_Load(object sender, EventArgs e)
         {
             GetFileSystemData("2.vhd");
+            _failai = DeserializeFailasFromJson("Failai-Json.json");
             //ReadFilesDataFromFile("Failai.csv"); arba //GetFilesData(_failai, "2.vhd");
             //AssignSectors(_failai, "2.vhd");
             //CalculateClusters(_failai);
             //SaveListToJsonFile(_failai, "Failai-Json.json");
-            _failai = DeserializeFailasFromJson("Failai-Json.json");
         }
 
         private void testas_Click(object sender, EventArgs e)
         {
-            ReadAndSaveFileUsingBinaryTest();
+            //ReadAndSaveFileUsingBinaryTest();
+            InitiliazeInitialStatusForHiding();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -266,12 +267,108 @@ namespace SKKFS
 
         public void ReadAndSaveFileUsingBinaryTest()
         {
-            var failasIn = "Paulius_Norkus_Resume.docx";
-            var failasOut = "Paulius_Norkus_Resume-out.docx";
+            var failasIn = "test.txt";
+            var failasOut = "test-out.txt";
 
             var binaryString = Helper.ReadFileToBinaryString(_workingDirectory, failasIn);
 
+            richTextBox1.Text = binaryString.Length.ToString();
+
             Helper.WriteBinaryStringToFile(_workingDirectory, failasOut, binaryString);
+        }
+
+        public void InitiliazeInitialStatusForHiding()
+        {
+            var failasIn = "test.txt";
+            var failasOut = "test-out.txt";
+            //Čia reikia file read
+
+            //Slepiami duomenys
+            string M = Helper.ReadFileToBinaryString(_workingDirectory, failasIn);
+            int n = M.Length;
+
+
+            //string F[] =;         // Dengiantys failai
+            //long m = F.Length;    // Dengiančių failų skaičius
+            //string D[] =;         // Failų komponentės
+            //long i = D.Length;    // Failų komponenčių skaičius
+
+            long C = _failuSistema.SectorsAssignedPerCluster;
+
+            int S = 2; //slapto rakto dalis, įvedamas
+
+            string B0 = "000000"; // Inicilizacijos vektorius, įvedamas
+
+            //var N = // Tarpinių skaičiavimų masyvas, tiksliai nežinau kam, gal laisvi sektoriai, ar jau į kokius klasterius įrašyti tie paslėpti failai
+
+            int p = 6;// Įvedamas, slepiamų bitų ilgis - įvedamas nes persigalvoaju, neapsimoka apskaičiuot ten kažko
+
+            M = B0 + M; // Čia reiktų B0 taisyklingo kad veiktų visada :)
+
+            long[] B = M.Chunk(p).Select(x => Convert.ToInt64(new string(x), 2)).ToArray();
+
+
+            long[] N = new long[B.Length - 1]; long wot = (long)Math.Pow(2, p);
+            for (int i = 0; i < B.Length - 1; i++)
+            {
+                N[i] = Helper.Modulo(B[i + 1] - B[i], wot); // Apskaičiuojam kokia liekana turim gaut iš klasterio numerio
+                richTextBox1.Text += $"{B[i]} - {N[i]}";
+                for(long j = _failuSistema.NextFreeSector; j < _failuSistema.ClusterAreaEnd; j++)
+                {
+                    if(Helper.Modulo(j, wot) == N[i]) // Surandam sektoriaus / klasterio numerį į kurį talpinsim
+                    {
+                        bool canWriteIntoSector = true;
+                        for(int k = 0; k < _failuSistema.Clusters.Count; k++) // Tikrinam ar užimtas
+                        {
+                            /*if(j.IsWithin(_failuSistema.Clusters[k].Start, _failuSistema.Clusters[k].End) 
+                                || 
+                                (j + _failuSistema.SectorsAssignedPerCluster - 1).IsWithin(_failuSistema.Clusters[k].Start, _failuSistema.Clusters[k].End)) //Yra jau tas sektorius / klasteris naudojamas
+                            {
+                                // plius reikėtų patikrint ar slepiamo failo dydis telpa 
+                                canWriteIntoSector = false;
+                                break;
+                            }*/
+
+                            for (long l = j; l < j + _failuSistema.SectorsAssignedPerCluster; l = l + _failuSistema.SectorsAssignedPerCluster) // cia reikia failu dydi imest 
+                            {
+                                if (
+                                    l.IsWithin(_failuSistema.Clusters[k].Start, _failuSistema.Clusters[k].End) 
+                                    || 
+                                    (l + _failuSistema.SectorsAssignedPerCluster - 1).IsWithin(_failuSistema.Clusters[k].Start, _failuSistema.Clusters[k].End)
+                                    ) //Yra jau tas sektorius / klasteris naudojamas
+                                {
+                                    //Failo pilnai negalima įrašyti į sektoriaus range, nes kažkuris yra užimtas
+                                    canWriteIntoSector = false;
+                                    break;
+                                }
+                            }
+                            if (!canWriteIntoSector)
+                            {
+                                break;
+                            }
+                        }
+                        if (canWriteIntoSector)
+                        {
+                            _failuSistema.Clusters.Add(new Klasteris // Sutvarkyt šita vieta!!
+                            {
+                                Start = j,
+                                End = j + _failuSistema.SectorsAssignedPerCluster - 1, // Čia reiktų failo dydį talpint
+                                Length = _failuSistema.SectorsAssignedPerCluster,
+                                NextSectorNumber = "EOF"
+                            });
+                            if(j == _failuSistema.NextFreeSector)
+                            {
+                                _failuSistema.NextFreeSector = j + _failuSistema.SectorsAssignedPerCluster; // pakeist lol
+                            }
+                            richTextBox1.Text += $", įrašytas į {j} \n";
+                            break;
+                        }
+                        
+                    }
+                }
+            }
+            var a = _failuSistema;
+
         }
     }
 }

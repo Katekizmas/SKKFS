@@ -18,9 +18,9 @@
         }
 
         //Išsaugoti bitų stringą į failą
-        public static void WriteBinaryStringToFile(string path, string filename, string binaryString)
+        public static void WriteBinaryStringToFile(string path, string fileName, string binaryString)
         {
-            File.WriteAllBytes($"{path}/{filename}", FromBinaryString(binaryString));
+            File.WriteAllBytes($"{path}/{fileName}", FromBinaryString(binaryString));
         }
         
         // Paversti baitų masyvą į bitų stringą
@@ -39,6 +39,14 @@
 
             return b;
         }
+        public static long Modulo(long x, long N)
+        {
+            return (x % N + N) % N;
+        }
 
+        public static bool IsWithin(this long value, long minimum, long maximum)
+        {
+            return value >= minimum && value <= maximum;
+        }
     }
 }

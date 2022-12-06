@@ -12,6 +12,11 @@ namespace SKKFS
         string _workingDirectory = "C:/Users/Paulius/Desktop/atvaizdai";
         FailuSistema _failuSistema = new FailuSistema();
         List<Failas> _failai = new List<Failas>();
+
+        //Pradinės būsenos
+        List<Failas> chosenFiles = new List<Failas>();
+        string chosenFileToHide = "";
+
         public SKKFS()
         {
             InitializeComponent();
@@ -123,7 +128,7 @@ namespace SKKFS
             if (!process.WaitForExit(10000)) // 60s
             {
                 process.Kill();
-                richTextBox1.Text = outputFiles.ToString();
+                richTextBox_paslepimasDengiamiFailai.Text = outputFiles.ToString();
             }
 
             var files = outputFiles.ToString().Split("\r\n");
@@ -254,16 +259,16 @@ namespace SKKFS
             var failasIn = "test.txt";
             var failasOut = "test-out.txt";
 
-            var binaryString = Helper.ReadFileToBinaryString(_workingDirectory, failasIn);
+            var binaryString = Helper.ReadFileToBinaryString(chosenFileToHide);
 
-            richTextBox1.Text = binaryString.Length.ToString();
+            richTextBox_paslepimasDengiamiFailai.Text = binaryString.Length.ToString();
 
             Helper.WriteBinaryStringToFile(_workingDirectory, failasOut, binaryString);
         }
 
-        public List<Failas> ChooseFileSystemFilesBySelectedFilesInDialog()
+        public void ChooseFileSystemFilesBySelectedFilesInDialog(RichTextBox textbox)
         {
-            var chosenFiles = new List<Failas>();
+            chosenFiles.Clear();
             char[] alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
             //openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";
@@ -271,15 +276,16 @@ namespace SKKFS
             //openFileDialog1.Filter = "Failai|*.txt|Failai2|*.csv";e
 
             //DialogResult dr = openFileDialog1.ShowDialog();
-            
+            textbox.Text = "";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (chosenFiles.Count <= alpha.Length)
+                string[] selectedFiles = openFileDialog1.FileNames;
+                if (selectedFiles.Length <= alpha.Length)
                 {
                     //string[] selectedFiles = openFileDialog1.FileNames.Select(x => x.Substring(3).Replace("\\", "/")).ToArray();
-                    string[] selectedFiles = openFileDialog1.FileNames;
                     for (int i = 0; i < selectedFiles.Length; i++)
                     {
+                        textbox.AppendText($"Dengiantysis failas: > {selectedFiles[i].ToString()}\n");
                         var fileInformation = new FileInfo(selectedFiles[i]);   //Failo informacija
                         double maxFileCount = Math.Ceiling((double)fileInformation.Length / _failuSistema.SectorsAssignedPerCluster); // Apskaičiuojam kiek clusterių užima failas
                         var files = _failai.Where(x => x.Name[0].ToString().ToUpper() == alpha[i].ToString().ToUpper()).OrderBy(x => x.Size).ThenBy(x => x.Name).ToList();
@@ -289,7 +295,7 @@ namespace SKKFS
                             double clustersTaken = Math.Ceiling((double)files[j].Size / _failuSistema.SectorsAssignedPerCluster); // Apskaičiuojam kiek clusterių užima failas
                             if (maxFileCount - clustersTaken >= 0)
                             {
-                                richTextBox1.AppendText($"> {files[j].FullPath} ({clustersTaken})\n");
+                                textbox.AppendText($"      > {files[j].FullPath} ({clustersTaken})\n");
                                 maxFileCount = maxFileCount - clustersTaken;
                                 chosenFiles.Add(files[j]);
                             }
@@ -301,18 +307,31 @@ namespace SKKFS
                     Console.WriteLine("Tiek dengiamų failų pasirinkti negalima, maksimalus skaičius: " + alpha.Length);
                 }
             }
-
-            return chosenFiles;
         }
+        public void ChooseFileToHide()
+        {
+            //openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";
+            openFileDialog1.Multiselect = false;
+            //openFileDialog1.Filter = "Failai|*.txt|Failai2|*.csv";e
 
+            //DialogResult dr = openFileDialog1.ShowDialog();
+            richTextBox_paslepimasSlepiamiFailai.Text = "";
+            richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = "";
+            chosenFileToHide = "";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                chosenFileToHide = openFileDialog1.FileName;
+                richTextBox_paslepimasSlepiamiFailai.AppendText(chosenFileToHide);
+                foreach (string line in File.ReadAllLines(chosenFileToHide))
+                {
+                    richTextBox_paslepimasSlepiamiFailaiDuomenys.AppendText(line);
+                }
+            }
+        }
         public void InitiliazeInitialStatusForHiding()
         {
-            var failasIn = "test.txt";
-            //Čia reikia file read
-
             //Slepiami duomenys
-            string M = Helper.ReadFileToBinaryString(_workingDirectory, failasIn);
-            //richTextBox1.Text += M;
+            string M = Helper.ReadFileToBinaryString(chosenFileToHide);
             int n = M.Length;
 
 
@@ -323,19 +342,17 @@ namespace SKKFS
 
             long C = _failuSistema.SectorsAssignedPerCluster;
 
-            int S = 2; //slapto rakto dalis, įvedamas
+            int S = Int32.Parse(textBox_paslepimasSlaptasRaktas.Text);//2; //slapto rakto dalis, įvedamas
 
-            string B0 = "00000000"; // Inicilizacijos vektorius, įvedamas
+            string B0 = textBox_paslepimasVektorius.Text;//"00000000"; // Inicilizacijos vektorius, įvedamas
 
             //var N = // Tarpinių skaičiavimų masyvas, tiksliai nežinau kam, gal laisvi sektoriai, ar jau į kokius klasterius įrašyti tie paslėpti failai
 
-            int p = 8;// Įvedamas, slepiamų bitų ilgis - įvedamas nes persigalvoaju, neapsimoka apskaičiuot ten kažko
+            int p = Int32.Parse(textBox_paslepimasIlgis.Text);//8;// Įvedamas, slepiamų bitų ilgis - įvedamas nes persigalvoaju, neapsimoka apskaičiuot ten kažko
 
             M = B0 + M; // Čia reiktų B0 taisyklingo kad veiktų visada :)
 
             long[] B = M.Chunk(p).Select(x => Convert.ToInt64(new string(x), 2)).ToArray();
-
-            var chosenFiles = ChooseFileSystemFilesBySelectedFilesInDialog();
 
             if (chosenFiles.Count >= B.Length)
             {
@@ -389,7 +406,7 @@ namespace SKKFS
                                     tarpiniaiKlasteriai = tarpiniaiKlasteriai.OrderBy(x => x.Start).Where(x => (x.Start - _failuSistema.NextFreeSector) <= (_failuSistema.SectorsAssignedPerCluster - 1)))
                                 }*/
 
-                                richTextBox1.Text += $"- Failas: {chosenFiles[i].Name}, iš ({chosenFiles[i].Clusters.FirstOrDefault().ToString()}), į ({newCluster.ToString()}) \n";
+                                richTextBox_paslepimasDengiamiFailai.Text += $"- Failas: {chosenFiles[i].Name}, iš ({chosenFiles[i].Clusters.FirstOrDefault().ToString()}), į ({newCluster.ToString()}) \n";
 
                                 var index = _failai.FindIndex(x => x.Equals(chosenFiles[i]));
                                 _failai[index].Clusters.Clear();
@@ -401,7 +418,14 @@ namespace SKKFS
                         }
                     }
                 }
-                var asd = "";
+                textBox_paslepimasIlgis.Text = "";
+                textBox_paslepimasVektorius.Text = "";
+                textBox_paslepimasSlaptasRaktas.Text = "";
+                richTextBox_paslepimasDengiamiFailai.Text = "";
+                richTextBox_paslepimasSlepiamiFailai.Text = "";
+                richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = "";
+                MessageBox.Show("Duomenys sėkmingai paslėpti", "Duomenų paslėpimas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             } else
             {
                 MessageBox.Show($"Nepakanka komponenčių failų. Norint paslėpti reikės: {B.Length} arba daugiau, o komponenčių failų failų sistemoje yra: {chosenFiles.Count}.", "Paslėpti failo neįmanoma", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -420,15 +444,13 @@ namespace SKKFS
 
             long C = _failuSistema.SectorsAssignedPerCluster;
 
-            int S = 2; //slapto rakto dalis, įvedamas
+            int S = Int32.Parse(textBox_atkodavimasSlaptasRaktas.Text);//2; //slapto rakto dalis, įvedamas
 
-            string B0 = "00000000"; // Inicilizacijos vektorius, įvedamas
+            string B0 = textBox_atkodavimasVektorius.Text;//"00000000"; // Inicilizacijos vektorius, įvedamas
 
             //var N = // Tarpinių skaičiavimų masyvas, tiksliai nežinau kam, gal laisvi sektoriai, ar jau į kokius klasterius įrašyti tie paslėpti failai
 
-            int p = 8;// Įvedamas, slepiamų bitų ilgis - įvedamas nes persigalvoaju, neapsimoka apskaičiuot ten kažko
-
-            var chosenFiles = ChooseFileSystemFilesBySelectedFilesInDialog();
+            int p = Int32.Parse(textBox_atkodavimasIlgis.Text);//8;// Įvedamas, slepiamų bitų ilgis - įvedamas nes persigalvoaju, neapsimoka apskaičiuot ten kažko
 
             long[] N = new long[chosenFiles.Count]; long wot = (long)Math.Pow(2, p);
 
@@ -449,11 +471,37 @@ namespace SKKFS
                 binaryString += Convert.ToString(Helper.Modulo(N[i] + B[i], wot), 2).PadLeft(p, '0');
             }*/
 
-
-
-            richTextBox1.Text = binaryString;
-
             Helper.WriteBinaryStringToFile(_workingDirectory, failasOut, binaryString);
+
+            foreach (string line in File.ReadAllLines($"{_workingDirectory}/{failasOut}"))
+            {
+                richTextBox_atkodavimasAtkoduotiDuomenys.AppendText(line);
+            }
+        }
+
+        private void button_paslepimasSlepiamiFailai_Click(object sender, EventArgs e)
+        {
+            ChooseFileToHide();
+        }
+
+        private void button_paslepimasDengFailai_Click(object sender, EventArgs e)
+        {
+            ChooseFileSystemFilesBySelectedFilesInDialog(richTextBox_paslepimasDengiamiFailai);
+        }
+
+        private void button_paslepti_Click(object sender, EventArgs e)
+        {
+            InitiliazeInitialStatusForHiding();
+        }
+
+        private void button_atkodavimasDengFailai_Click(object sender, EventArgs e)
+        {
+            ChooseFileSystemFilesBySelectedFilesInDialog(richTextBox_atkodavimasDengiamiFailai);
+        }
+
+        private void button_atkoduoti_Click(object sender, EventArgs e)
+        {
+            InitiliazeInitialStatusForDecoding();
         }
     }
 }

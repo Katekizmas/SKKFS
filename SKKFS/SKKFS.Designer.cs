@@ -28,65 +28,439 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.testas = new System.Windows.Forms.Button();
+            this.richTextBox_paslepimasDengiamiFailai = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button_paslepti = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.richTextBox_paslepimasSlepiamiFailaiDuomenys = new System.Windows.Forms.RichTextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.button_paslepimasSlepiamiFailai = new System.Windows.Forms.Button();
+            this.richTextBox_paslepimasSlepiamiFailai = new System.Windows.Forms.RichTextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button_paslepimasDengFailai = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox_paslepimasVektorius = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBox_paslepimasIlgis = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox_paslepimasSlaptasRaktas = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button_atkoduoti = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.richTextBox_atkodavimasAtkoduotiDuomenys = new System.Windows.Forms.RichTextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button_atkodavimasDengFailai = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox_atkodavimasVektorius = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.richTextBox_atkodavimasDengiamiFailai = new System.Windows.Forms.RichTextBox();
+            this.textBox_atkodavimasIlgis = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBox_atkodavimasSlaptasRaktas = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // richTextBox1
+            // richTextBox_paslepimasDengiamiFailai
             // 
-            this.richTextBox1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.richTextBox1.Location = new System.Drawing.Point(12, 12);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(667, 388);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
-            // 
-            // testas
-            // 
-            this.testas.Location = new System.Drawing.Point(12, 420);
-            this.testas.Name = "testas";
-            this.testas.Size = new System.Drawing.Size(209, 92);
-            this.testas.TabIndex = 1;
-            this.testas.Text = "Testas";
-            this.testas.UseVisualStyleBackColor = true;
-            this.testas.Click += new System.EventHandler(this.testas_Click);
+            this.richTextBox_paslepimasDengiamiFailai.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox_paslepimasDengiamiFailai.Location = new System.Drawing.Point(6, 123);
+            this.richTextBox_paslepimasDengiamiFailai.Name = "richTextBox_paslepimasDengiamiFailai";
+            this.richTextBox_paslepimasDengiamiFailai.ReadOnly = true;
+            this.richTextBox_paslepimasDengiamiFailai.Size = new System.Drawing.Size(918, 195);
+            this.richTextBox_paslepimasDengiamiFailai.TabIndex = 0;
+            this.richTextBox_paslepimasDengiamiFailai.Text = "";
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // button1
+            // tabControl1
             // 
-            this.button1.Location = new System.Drawing.Point(480, 420);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(199, 92);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Pasirinkti failą";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Font = new System.Drawing.Font("Book Antiqua", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1136, 760);
+            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
+            this.tabControl1.TabIndex = 3;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.button_paslepti);
+            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tabPage1.Location = new System.Drawing.Point(4, 32);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1128, 724);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Duomenų paslėpimas";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button_paslepti
+            // 
+            this.button_paslepti.Location = new System.Drawing.Point(663, 662);
+            this.button_paslepti.Name = "button_paslepti";
+            this.button_paslepti.Size = new System.Drawing.Size(271, 48);
+            this.button_paslepti.TabIndex = 4;
+            this.button_paslepti.Text = "Paslėpti";
+            this.button_paslepti.UseVisualStyleBackColor = true;
+            this.button_paslepti.Click += new System.EventHandler(this.button_paslepti_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.richTextBox_paslepimasSlepiamiFailaiDuomenys);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.button_paslepimasSlepiamiFailai);
+            this.groupBox2.Controls.Add(this.richTextBox_paslepimasSlepiamiFailai);
+            this.groupBox2.Location = new System.Drawing.Point(6, 342);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(1110, 314);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Slepiami duomenys";
+            // 
+            // richTextBox_paslepimasSlepiamiFailaiDuomenys
+            // 
+            this.richTextBox_paslepimasSlepiamiFailaiDuomenys.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox_paslepimasSlepiamiFailaiDuomenys.Location = new System.Drawing.Point(6, 120);
+            this.richTextBox_paslepimasSlepiamiFailaiDuomenys.Name = "richTextBox_paslepimasSlepiamiFailaiDuomenys";
+            this.richTextBox_paslepimasSlepiamiFailaiDuomenys.ReadOnly = true;
+            this.richTextBox_paslepimasSlepiamiFailaiDuomenys.Size = new System.Drawing.Size(1098, 182);
+            this.richTextBox_paslepimasSlepiamiFailaiDuomenys.TabIndex = 12;
+            this.richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = "";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 43);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(124, 20);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Slepiamas failas";
+            // 
+            // button_paslepimasSlepiamiFailai
+            // 
+            this.button_paslepimasSlepiamiFailai.Location = new System.Drawing.Point(934, 66);
+            this.button_paslepimasSlepiamiFailai.Name = "button_paslepimasSlepiamiFailai";
+            this.button_paslepimasSlepiamiFailai.Size = new System.Drawing.Size(170, 48);
+            this.button_paslepimasSlepiamiFailai.TabIndex = 11;
+            this.button_paslepimasSlepiamiFailai.Text = "Pasirinkti";
+            this.button_paslepimasSlepiamiFailai.UseVisualStyleBackColor = true;
+            this.button_paslepimasSlepiamiFailai.Click += new System.EventHandler(this.button_paslepimasSlepiamiFailai_Click);
+            // 
+            // richTextBox_paslepimasSlepiamiFailai
+            // 
+            this.richTextBox_paslepimasSlepiamiFailai.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox_paslepimasSlepiamiFailai.Location = new System.Drawing.Point(6, 66);
+            this.richTextBox_paslepimasSlepiamiFailai.Name = "richTextBox_paslepimasSlepiamiFailai";
+            this.richTextBox_paslepimasSlepiamiFailai.ReadOnly = true;
+            this.richTextBox_paslepimasSlepiamiFailai.Size = new System.Drawing.Size(922, 48);
+            this.richTextBox_paslepimasSlepiamiFailai.TabIndex = 11;
+            this.richTextBox_paslepimasSlepiamiFailai.Text = "";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.button_paslepimasDengFailai);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.textBox_paslepimasVektorius);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.richTextBox_paslepimasDengiamiFailai);
+            this.groupBox1.Controls.Add(this.textBox_paslepimasIlgis);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.textBox_paslepimasSlaptasRaktas);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1110, 330);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Pradiniai duomenys";
+            // 
+            // button_paslepimasDengFailai
+            // 
+            this.button_paslepimasDengFailai.Location = new System.Drawing.Point(934, 123);
+            this.button_paslepimasDengFailai.Name = "button_paslepimasDengFailai";
+            this.button_paslepimasDengFailai.Size = new System.Drawing.Size(170, 48);
+            this.button_paslepimasDengFailai.TabIndex = 10;
+            this.button_paslepimasDengFailai.Text = "Pasirinkti";
+            this.button_paslepimasDengFailai.UseVisualStyleBackColor = true;
+            this.button_paslepimasDengFailai.Click += new System.EventHandler(this.button_paslepimasDengFailai_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 100);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(130, 20);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Dengiantys failai";
+            // 
+            // textBox_paslepimasVektorius
+            // 
+            this.textBox_paslepimasVektorius.Location = new System.Drawing.Point(430, 53);
+            this.textBox_paslepimasVektorius.Name = "textBox_paslepimasVektorius";
+            this.textBox_paslepimasVektorius.Size = new System.Drawing.Size(227, 27);
+            this.textBox_paslepimasVektorius.TabIndex = 7;
+            this.textBox_paslepimasVektorius.Text = "00000000";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(430, 30);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(204, 20);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Inicizilacijos vektorius \"B0\"";
+            // 
+            // textBox_paslepimasIlgis
+            // 
+            this.textBox_paslepimasIlgis.Location = new System.Drawing.Point(731, 53);
+            this.textBox_paslepimasIlgis.Name = "textBox_paslepimasIlgis";
+            this.textBox_paslepimasIlgis.Size = new System.Drawing.Size(227, 27);
+            this.textBox_paslepimasIlgis.TabIndex = 5;
+            this.textBox_paslepimasIlgis.Text = "8";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(731, 30);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(217, 20);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Slepiamų bitų blokų ilgis \"p\"";
+            // 
+            // textBox_paslepimasSlaptasRaktas
+            // 
+            this.textBox_paslepimasSlaptasRaktas.Location = new System.Drawing.Point(129, 53);
+            this.textBox_paslepimasSlaptasRaktas.Name = "textBox_paslepimasSlaptasRaktas";
+            this.textBox_paslepimasSlaptasRaktas.Size = new System.Drawing.Size(227, 27);
+            this.textBox_paslepimasSlaptasRaktas.TabIndex = 3;
+            this.textBox_paslepimasSlaptasRaktas.Text = "2";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(129, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(131, 20);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Slaptas raktas \"S\"";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.button_atkoduoti);
+            this.tabPage2.Controls.Add(this.groupBox4);
+            this.tabPage2.Controls.Add(this.groupBox3);
+            this.tabPage2.Location = new System.Drawing.Point(4, 32);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1128, 724);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Duomenų atkodavimas";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button_atkoduoti
+            // 
+            this.button_atkoduoti.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button_atkoduoti.Location = new System.Drawing.Point(663, 662);
+            this.button_atkoduoti.Name = "button_atkoduoti";
+            this.button_atkoduoti.Size = new System.Drawing.Size(271, 48);
+            this.button_atkoduoti.TabIndex = 8;
+            this.button_atkoduoti.Text = "Atkoduoti";
+            this.button_atkoduoti.UseVisualStyleBackColor = true;
+            this.button_atkoduoti.Click += new System.EventHandler(this.button_atkoduoti_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.richTextBox_atkodavimasAtkoduotiDuomenys);
+            this.groupBox4.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.groupBox4.Location = new System.Drawing.Point(6, 342);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(1110, 314);
+            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Atkoduoti duomenys";
+            // 
+            // richTextBox_atkodavimasAtkoduotiDuomenys
+            // 
+            this.richTextBox_atkodavimasAtkoduotiDuomenys.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox_atkodavimasAtkoduotiDuomenys.Location = new System.Drawing.Point(6, 26);
+            this.richTextBox_atkodavimasAtkoduotiDuomenys.Name = "richTextBox_atkodavimasAtkoduotiDuomenys";
+            this.richTextBox_atkodavimasAtkoduotiDuomenys.ReadOnly = true;
+            this.richTextBox_atkodavimasAtkoduotiDuomenys.Size = new System.Drawing.Size(1098, 282);
+            this.richTextBox_atkodavimasAtkoduotiDuomenys.TabIndex = 12;
+            this.richTextBox_atkodavimasAtkoduotiDuomenys.Text = "";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.button_atkodavimasDengFailai);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.textBox_atkodavimasVektorius);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.richTextBox_atkodavimasDengiamiFailai);
+            this.groupBox3.Controls.Add(this.textBox_atkodavimasIlgis);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.textBox_atkodavimasSlaptasRaktas);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.groupBox3.Location = new System.Drawing.Point(6, 6);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(1110, 330);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Pradiniai duomenys";
+            // 
+            // button_atkodavimasDengFailai
+            // 
+            this.button_atkodavimasDengFailai.Location = new System.Drawing.Point(934, 123);
+            this.button_atkodavimasDengFailai.Name = "button_atkodavimasDengFailai";
+            this.button_atkodavimasDengFailai.Size = new System.Drawing.Size(170, 48);
+            this.button_atkodavimasDengFailai.TabIndex = 10;
+            this.button_atkodavimasDengFailai.Text = "Pasirinkti";
+            this.button_atkodavimasDengFailai.UseVisualStyleBackColor = true;
+            this.button_atkodavimasDengFailai.Click += new System.EventHandler(this.button_atkodavimasDengFailai_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 100);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(130, 20);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Dengiantys failai";
+            // 
+            // textBox_atkodavimasVektorius
+            // 
+            this.textBox_atkodavimasVektorius.Location = new System.Drawing.Point(430, 53);
+            this.textBox_atkodavimasVektorius.Name = "textBox_atkodavimasVektorius";
+            this.textBox_atkodavimasVektorius.Size = new System.Drawing.Size(227, 27);
+            this.textBox_atkodavimasVektorius.TabIndex = 7;
+            this.textBox_atkodavimasVektorius.Text = "00000000";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(430, 30);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(204, 20);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "Inicizilacijos vektorius \"B0\"";
+            // 
+            // richTextBox_atkodavimasDengiamiFailai
+            // 
+            this.richTextBox_atkodavimasDengiamiFailai.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox_atkodavimasDengiamiFailai.Location = new System.Drawing.Point(6, 123);
+            this.richTextBox_atkodavimasDengiamiFailai.Name = "richTextBox_atkodavimasDengiamiFailai";
+            this.richTextBox_atkodavimasDengiamiFailai.ReadOnly = true;
+            this.richTextBox_atkodavimasDengiamiFailai.Size = new System.Drawing.Size(922, 195);
+            this.richTextBox_atkodavimasDengiamiFailai.TabIndex = 0;
+            this.richTextBox_atkodavimasDengiamiFailai.Text = "";
+            // 
+            // textBox_atkodavimasIlgis
+            // 
+            this.textBox_atkodavimasIlgis.Location = new System.Drawing.Point(731, 53);
+            this.textBox_atkodavimasIlgis.Name = "textBox_atkodavimasIlgis";
+            this.textBox_atkodavimasIlgis.Size = new System.Drawing.Size(227, 27);
+            this.textBox_atkodavimasIlgis.TabIndex = 5;
+            this.textBox_atkodavimasIlgis.Text = "8";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(731, 30);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(217, 20);
+            this.label8.TabIndex = 6;
+            this.label8.Text = "Slepiamų bitų blokų ilgis \"p\"";
+            // 
+            // textBox_atkodavimasSlaptasRaktas
+            // 
+            this.textBox_atkodavimasSlaptasRaktas.Location = new System.Drawing.Point(129, 53);
+            this.textBox_atkodavimasSlaptasRaktas.Name = "textBox_atkodavimasSlaptasRaktas";
+            this.textBox_atkodavimasSlaptasRaktas.Size = new System.Drawing.Size(227, 27);
+            this.textBox_atkodavimasSlaptasRaktas.TabIndex = 3;
+            this.textBox_atkodavimasSlaptasRaktas.Text = "2";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(129, 30);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(131, 20);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "Slaptas raktas \"S\"";
             // 
             // SKKFS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(695, 539);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.testas);
-            this.Controls.Add(this.richTextBox1);
+            this.ClientSize = new System.Drawing.Size(1151, 777);
+            this.Controls.Add(this.tabControl1);
             this.Name = "SKKFS";
             this.Text = "Slaptas kanalas klasterinėje failų struktūroje";
             this.Load += new System.EventHandler(this.SKKFS_Load);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private RichTextBox richTextBox1;
-        private Button testas;
+        private RichTextBox richTextBox_paslepimasDengiamiFailai;
         private OpenFileDialog openFileDialog1;
-        private Button button1;
+        private TabControl tabControl1;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
+        private GroupBox groupBox2;
+        private GroupBox groupBox1;
+        private TextBox textBox_paslepimasVektorius;
+        private Label label3;
+        private TextBox textBox_paslepimasIlgis;
+        private Label label2;
+        private TextBox textBox_paslepimasSlaptasRaktas;
+        private Label label1;
+        private Label label5;
+        private Button button_paslepimasSlepiamiFailai;
+        private RichTextBox richTextBox_paslepimasSlepiamiFailai;
+        private Button button_paslepimasDengFailai;
+        private Label label4;
+        private RichTextBox richTextBox_paslepimasSlepiamiFailaiDuomenys;
+        private Button button_paslepti;
+        private Button button_atkoduoti;
+        private GroupBox groupBox4;
+        private RichTextBox richTextBox_atkodavimasAtkoduotiDuomenys;
+        private GroupBox groupBox3;
+        private Button button_atkodavimasDengFailai;
+        private Label label6;
+        private TextBox textBox_atkodavimasVektorius;
+        private Label label7;
+        private RichTextBox richTextBox_atkodavimasDengiamiFailai;
+        private TextBox textBox_atkodavimasIlgis;
+        private Label label8;
+        private TextBox textBox_atkodavimasSlaptasRaktas;
+        private Label label9;
     }
 }

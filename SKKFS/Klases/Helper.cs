@@ -11,9 +11,9 @@
         }
 
         //Nuskaityti failą į binary string
-        public static string ReadFileToBinaryString(string path, string filename)
+        public static string ReadFileToBinaryString(string filename)
         {
-            byte[] fileBytes = File.ReadAllBytes($"{path}/{filename}");
+            byte[] fileBytes = File.ReadAllBytes(filename);
             return ConvertToBinaryString(fileBytes);
         }
 

@@ -61,6 +61,11 @@
             this.label8 = new System.Windows.Forms.Label();
             this.textBox_atkodavimasSlaptasRaktas = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnNuskaitytiDiskoAtvaizda = new System.Windows.Forms.Button();
+            this.btnPasirinktiDiskoAtvaizda = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.richTextBox_pasirinktiDiskoAtvaizda = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -68,6 +73,7 @@
             this.tabPage2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox_paslepimasDengiamiFailai
@@ -88,6 +94,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Font = new System.Drawing.Font("Book Antiqua", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
@@ -222,9 +229,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(430, 30);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(204, 20);
+            this.label3.Size = new System.Drawing.Size(212, 20);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Inicizilacijos vektorius \"B0\"";
+            this.label3.Text = "Inicializacijos vektorius \"B0\"";
             // 
             // textBox_paslepimasIlgis
             // 
@@ -249,7 +256,7 @@
             this.textBox_paslepimasSlaptasRaktas.Name = "textBox_paslepimasSlaptasRaktas";
             this.textBox_paslepimasSlaptasRaktas.Size = new System.Drawing.Size(227, 27);
             this.textBox_paslepimasSlaptasRaktas.TabIndex = 3;
-            this.textBox_paslepimasSlaptasRaktas.Text = "2";
+            this.textBox_paslepimasSlaptasRaktas.Text = "1";
             // 
             // label1
             // 
@@ -356,9 +363,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(430, 30);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(204, 20);
+            this.label7.Size = new System.Drawing.Size(212, 20);
             this.label7.TabIndex = 8;
-            this.label7.Text = "Inicizilacijos vektorius \"B0\"";
+            this.label7.Text = "Inicializacijos vektorius \"B0\"";
             // 
             // richTextBox_atkodavimasDengiamiFailai
             // 
@@ -393,7 +400,7 @@
             this.textBox_atkodavimasSlaptasRaktas.Name = "textBox_atkodavimasSlaptasRaktas";
             this.textBox_atkodavimasSlaptasRaktas.Size = new System.Drawing.Size(227, 27);
             this.textBox_atkodavimasSlaptasRaktas.TabIndex = 3;
-            this.textBox_atkodavimasSlaptasRaktas.Text = "2";
+            this.textBox_atkodavimasSlaptasRaktas.Text = "1";
             // 
             // label9
             // 
@@ -403,6 +410,58 @@
             this.label9.Size = new System.Drawing.Size(131, 20);
             this.label9.TabIndex = 4;
             this.label9.Text = "Slaptas raktas \"S\"";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.btnNuskaitytiDiskoAtvaizda);
+            this.tabPage3.Controls.Add(this.btnPasirinktiDiskoAtvaizda);
+            this.tabPage3.Controls.Add(this.label10);
+            this.tabPage3.Controls.Add(this.richTextBox_pasirinktiDiskoAtvaizda);
+            this.tabPage3.Location = new System.Drawing.Point(4, 32);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1128, 724);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Nuskaityti atvaizdą";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnNuskaitytiDiskoAtvaizda
+            // 
+            this.btnNuskaitytiDiskoAtvaizda.Location = new System.Drawing.Point(735, 152);
+            this.btnNuskaitytiDiskoAtvaizda.Name = "btnNuskaitytiDiskoAtvaizda";
+            this.btnNuskaitytiDiskoAtvaizda.Size = new System.Drawing.Size(353, 48);
+            this.btnNuskaitytiDiskoAtvaizda.TabIndex = 12;
+            this.btnNuskaitytiDiskoAtvaizda.Text = "Nuskaityti disko atvaizdą";
+            this.btnNuskaitytiDiskoAtvaizda.UseVisualStyleBackColor = true;
+            this.btnNuskaitytiDiskoAtvaizda.Click += new System.EventHandler(this.btnNuskaitytiDiskoAtvaizda_Click);
+            // 
+            // btnPasirinktiDiskoAtvaizda
+            // 
+            this.btnPasirinktiDiskoAtvaizda.Location = new System.Drawing.Point(879, 61);
+            this.btnPasirinktiDiskoAtvaizda.Name = "btnPasirinktiDiskoAtvaizda";
+            this.btnPasirinktiDiskoAtvaizda.Size = new System.Drawing.Size(209, 48);
+            this.btnPasirinktiDiskoAtvaizda.TabIndex = 11;
+            this.btnPasirinktiDiskoAtvaizda.Text = "Pasirinkti";
+            this.btnPasirinktiDiskoAtvaizda.UseVisualStyleBackColor = true;
+            this.btnPasirinktiDiskoAtvaizda.Click += new System.EventHandler(this.btnPasirinktiDiskoAtvaizda_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(26, 30);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(148, 23);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Disko atvaizdas";
+            // 
+            // richTextBox_pasirinktiDiskoAtvaizda
+            // 
+            this.richTextBox_pasirinktiDiskoAtvaizda.Location = new System.Drawing.Point(26, 61);
+            this.richTextBox_pasirinktiDiskoAtvaizda.Name = "richTextBox_pasirinktiDiskoAtvaizda";
+            this.richTextBox_pasirinktiDiskoAtvaizda.ReadOnly = true;
+            this.richTextBox_pasirinktiDiskoAtvaizda.Size = new System.Drawing.Size(847, 48);
+            this.richTextBox_pasirinktiDiskoAtvaizda.TabIndex = 0;
+            this.richTextBox_pasirinktiDiskoAtvaizda.Text = "";
             // 
             // SKKFS
             // 
@@ -423,6 +482,8 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -462,5 +523,10 @@
         private Label label8;
         private TextBox textBox_atkodavimasSlaptasRaktas;
         private Label label9;
+        private TabPage tabPage3;
+        private Button btnPasirinktiDiskoAtvaizda;
+        private Label label10;
+        private RichTextBox richTextBox_pasirinktiDiskoAtvaizda;
+        private Button btnNuskaitytiDiskoAtvaizda;
     }
 }

@@ -98,15 +98,15 @@ namespace SKKFS
             process.WaitForExit();
         }
 
-        public void GetFilesData([In, Out] List<Failas> failai, string fileName)
+        public void GetFilesData([In, Out] List<Failas> failai, string fullPath)
         {
             var process = new Process
             {
                 StartInfo =
                     {
                          FileName = "fls",
-                         WorkingDirectory = @$"{_workingDirectory}",
-                         Arguments = $"-F -l -p -r -u -z UTC -o 2048 {fileName}", //-F niekada nesibaigia...
+                         WorkingDirectory = @$"{Path.GetDirectoryName(fullPath)}",
+                         Arguments = $"-F -l -p -r -u -z UTC -o 2048 {Path.GetFileName(fullPath)}", //-F niekada nesibaigia...
                          UseShellExecute = false,
                          RedirectStandardOutput = true,
                          RedirectStandardError = true,
@@ -174,7 +174,7 @@ namespace SKKFS
             }
         }     
         
-        public void AssignSectors([In, Out] List<Failas> failai, string fileName)
+        public void AssignSectors([In, Out] List<Failas> failai, string fullPath)
         {
             for(int i = 0; i < failai.Count; i++)
             {
@@ -183,8 +183,8 @@ namespace SKKFS
                     StartInfo =
                     {
                          FileName = "istat",
-                         WorkingDirectory = @$"{_workingDirectory}",
-                         Arguments = $"-o 2048 {fileName} {failai[i].Address}",
+                         WorkingDirectory = @$"{Path.GetDirectoryName(fullPath)}",
+                         Arguments = $"-o 2048 {Path.GetFileName(fullPath)} {failai[i].Address}",
                          UseShellExecute = false,
                          RedirectStandardOutput = true,
                          RedirectStandardError = true,
@@ -328,8 +328,29 @@ namespace SKKFS
                 }
             }
         }
+
+        public void ChooseAndPrepareDiskImage()
+        {
+            //openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";
+            //openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";//openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";//openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";//openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";//openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";//openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";//openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";//openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";//openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";//openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";//openFileDialog1.InitialDirectory = "E:\\Dep1\\auqitobpirfqzp";
+            openFileDialog1.Multiselect = false;
+
+            var chosenDiskImage = "";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                richTextBox_pasirinktiDiskoAtvaizda.Text = openFileDialog1.FileName;
+                //richTextBox_paslepimasSlepiamiFailai.AppendText(chosenFileToHide);
+            }
+        }
         public void InitiliazeInitialStatusForHiding()
         {
+            int S = Int32.Parse(textBox_paslepimasSlaptasRaktas.Text);//2; //slapto rakto dalis, įvedamas
+
+            if (S <= 0)
+            {
+                MessageBox.Show("S reikšmė turi būti didesnė už 0", "Klaidos pranešimas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             //Slepiami duomenys
             string M = Helper.ReadFileToBinaryString(chosenFileToHide);
             int n = M.Length;
@@ -342,8 +363,6 @@ namespace SKKFS
 
             long C = _failuSistema.SectorsAssignedPerCluster;
 
-            int S = Int32.Parse(textBox_paslepimasSlaptasRaktas.Text);//2; //slapto rakto dalis, įvedamas
-
             string B0 = textBox_paslepimasVektorius.Text;//"00000000"; // Inicilizacijos vektorius, įvedamas
 
             //var N = // Tarpinių skaičiavimų masyvas, tiksliai nežinau kam, gal laisvi sektoriai, ar jau į kokius klasterius įrašyti tie paslėpti failai
@@ -354,11 +373,11 @@ namespace SKKFS
 
             long[] B = M.Chunk(p).Select(x => Convert.ToInt64(new string(x), 2)).ToArray();
 
-            if (chosenFiles.Count >= B.Length)
+            if (chosenFiles.Count / S >= B.Length)
             {
 
                 long[] N = new long[B.Length - 1]; long wot = (long)Math.Pow(2, p);
-                for (int i = 0; i < B.Length - 1; i++)
+                for (int i = 0; i + S < (B.Length - 1); i = i + S)
                 {
                     N[i] = Helper.Modulo(B[i + 1] - B[i], wot); // Apskaičiuojam kokia liekana turim gaut iš klasterio numerio
                     var tarpiniaiKlasteriai = _failuSistema.Clusters.Where(x => x.Start > _failuSistema.NextFreeSector).ToList(); // Sumažinti nereikalingą patikrinimą iš 1950 į 15 įrašų ir pnš
@@ -428,7 +447,7 @@ namespace SKKFS
 
             } else
             {
-                MessageBox.Show($"Nepakanka komponenčių failų. Norint paslėpti reikės: {B.Length} arba daugiau, o komponenčių failų failų sistemoje yra: {chosenFiles.Count}.", "Paslėpti failo neįmanoma", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Nepakanka komponenčių failų. Norint paslėpti reikės: {B.Length} arba daugiau, o komponenčių failų failų sistemoje yra: {chosenFiles.Count / S}.", "Paslėpti failo neįmanoma", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -436,6 +455,13 @@ namespace SKKFS
         {
             var failasOut = "test-out.txt";
 
+            int S = Int32.Parse(textBox_atkodavimasSlaptasRaktas.Text);//2; //slapto rakto dalis, įvedamas
+
+            if (S <= 0)
+            {
+                MessageBox.Show("S reikšmė turi būti didesnė už 0", "Klaidos pranešimas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             //string F[] =;         // Dengiantys failai
             //long m = F.Length;    // Dengiančių failų skaičius
@@ -443,8 +469,6 @@ namespace SKKFS
             //long i = D.Length;    // Failų komponenčių skaičius
 
             long C = _failuSistema.SectorsAssignedPerCluster;
-
-            int S = Int32.Parse(textBox_atkodavimasSlaptasRaktas.Text);//2; //slapto rakto dalis, įvedamas
 
             string B0 = textBox_atkodavimasVektorius.Text;//"00000000"; // Inicilizacijos vektorius, įvedamas
 
@@ -458,7 +482,7 @@ namespace SKKFS
             B[0] = Convert.ToInt64(B0, 2);
 
             string binaryString = "";
-            for (int i = 0; i < chosenFiles.Count - 1; i++)
+            for (int i = 0; i + S < (chosenFiles.Count - 1); i = i + S)
             {
                 N[i] = Helper.Modulo(chosenFiles[i].Clusters[0].Start, wot);
                 B[i + 1] = Helper.Modulo(N[i] + B[i], wot);
@@ -472,7 +496,7 @@ namespace SKKFS
             }*/
 
             Helper.WriteBinaryStringToFile(_workingDirectory, failasOut, binaryString);
-
+            richTextBox_atkodavimasAtkoduotiDuomenys.Text = "";
             foreach (string line in File.ReadAllLines($"{_workingDirectory}/{failasOut}"))
             {
                 richTextBox_atkodavimasAtkoduotiDuomenys.AppendText(line);
@@ -502,6 +526,28 @@ namespace SKKFS
         private void button_atkoduoti_Click(object sender, EventArgs e)
         {
             InitiliazeInitialStatusForDecoding();
+        }
+
+        private void btnPasirinktiDiskoAtvaizda_Click(object sender, EventArgs e)
+        {
+            ChooseAndPrepareDiskImage();
+        }
+
+        private void btnNuskaitytiDiskoAtvaizda_Click(object sender, EventArgs e)
+        {
+            if(String.IsNullOrWhiteSpace(richTextBox_pasirinktiDiskoAtvaizda.Text))
+            {
+                MessageBox.Show("Nepasirinktas disko atvaizdas", "Klaidos pranešimas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                GetFilesData(_failai, richTextBox_pasirinktiDiskoAtvaizda.Text);
+                //ReadFilesDataFromFile("Failai.csv"); arba ^
+                AssignSectors(_failai, richTextBox_pasirinktiDiskoAtvaizda.Text);
+                CalculateClusters(_failai);
+                SaveListToJsonFile(_failai, $"{Path.GetFileName(richTextBox_pasirinktiDiskoAtvaizda.Text).Split('.')[0]}.json");
+                MessageBox.Show("Disko atvaizdas sėkmingai nuskaitytas", "Disko atvaizdo nuskaitymas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

@@ -9,7 +9,9 @@ namespace SKKFS
 {
     public partial class SKKFS : Form
     {
-        string _workingDirectory = "C:/Users/Paulius/Desktop/atvaizdai";
+        string A1, A2, A3, ATotal;
+        //string _workingDirectory = "C:/Users/Paulius/Desktop/atvaizdai";
+        string _workingDirectory = "E:/";
         FailuSistema _failuSistema = new FailuSistema();
         List<Failas> _failai = new List<Failas>();
 
@@ -25,8 +27,11 @@ namespace SKKFS
         private void SKKFS_Load(object sender, EventArgs e)
         {
             List<Failas> _failais = new List<Failas>();
-            GetFileSystemData("2.vhd");
-            _failai = DeserializeFailasFromJson("Failai-Json.json");
+            //GetFileSystemData("2.vhd");
+            //_failai = DeserializeFailasFromJson("Failai-Json.json");
+            GetFileSystemData("SKKFS.vhd");
+            _failai = DeserializeFailasFromJson("SKKFS.json");
+
             //ReadFilesDataFromFile("Failai.csv"); arba //GetFilesData(_failai, "2.vhd");
             //AssignSectors(_failai, "2.vhd");
             //CalculateClusters(_failai);
@@ -78,8 +83,8 @@ namespace SKKFS
             _failuSistema.FreeSectorCount = Int64.Parse(lines[9].Split(":")[1].Trim());
             _failuSistema.ClusterAreaStart = Int64.Parse(lines[20].Split(":")[1].Split("-")[0].Trim());
             _failuSistema.ClusterAreaEnd = Int64.Parse(lines[20].Split(":")[1].Split("-")[1].Trim());
-            _failuSistema.SectorSize = Int64.Parse(lines[29].Split(":")[1].Trim());
-            _failuSistema.ClusterSize = Int64.Parse(lines[30].Split(":")[1].Trim());
+            _failuSistema.SectorSize = Int64.Parse(lines[28].Split(":")[1].Trim()); //29
+            _failuSistema.ClusterSize = Int64.Parse(lines[29].Split(":")[1].Trim()); //30
             _failuSistema.SectorsAssignedPerCluster = _failuSistema.ClusterSize / _failuSistema.SectorSize;
 
             for (int i = 34; i < lines.Length; i++)
@@ -136,17 +141,18 @@ namespace SKKFS
             {
                 //file_type inode file_name mod_time acc_time chg_time cre_time size uid gid
                 var file = files[i].Split("\t");
-                failai.Add(new Failas()
-                {
-                    Name = file[1].Split("/").Last(),
-                    FileExtension = $".{file[1].Split(".").Last()}",
-                    LastAccessed = file[3].Substring(0, file[3].Length - 6), //
-                    FileCreated = file[5].Substring(0, file[5].Length - 6),
-                    LastModified = file[2].Substring(0, file[2].Length - 6), //
-                    Size = Int64.Parse(file[6]), //
-                    Address = Int64.Parse(Regex.Match(file[0], @"\d+").Value),//
-                    FullPath = file[1],//
-                });
+                if(file.Length > 5)
+                    failai.Add(new Failas()
+                    {
+                        Name = file[1].Split("/").Last(),
+                        FileExtension = $".{file[1].Split(".").Last()}",
+                        LastAccessed = file[3].Substring(0, file[3].Length - 6), //
+                        FileCreated = file[5].Substring(0, file[5].Length - 6),
+                        LastModified = file[2].Substring(0, file[2].Length - 6), //
+                        Size = Int64.Parse(file[6]), //
+                        Address = Int64.Parse(Regex.Match(file[0], @"\d+").Value),//
+                        FullPath = file[1],//
+                    });
             }
         }
 
@@ -176,8 +182,15 @@ namespace SKKFS
         
         public void AssignSectors([In, Out] List<Failas> failai, string fullPath)
         {
-            for(int i = 0; i < failai.Count; i++)
+            progressBar1.Value = 0;
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = failai.Count;
+            progressBar1.Step = 1;
+            progressBar1.Style = ProgressBarStyle.Continuous;
+
+            for (int i = 0; i < failai.Count; i++)
             {
+                progressBar1.Value = i;
                 var process = new Process
                 {
                     StartInfo =
@@ -206,8 +219,15 @@ namespace SKKFS
 
         public void CalculateClusters([In, Out] List<Failas> failai)
         {
+            progressBar1.Value = 0;
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = failai.Count;
+            progressBar1.Step = 1;
+            progressBar1.Style = ProgressBarStyle.Continuous;
+
             for (int i = 0; i < failai.Count; i++)
             {
+                progressBar1.Value = i;
                 var amountOfSectorsAssigned = failai[i].Sectors.Length;
 
                 long clusterStart = failai[i].Sectors[0];
@@ -282,10 +302,17 @@ namespace SKKFS
                 string[] selectedFiles = openFileDialog1.FileNames;
                 if (selectedFiles.Length <= alpha.Length)
                 {
+                    progressBar1.Value = 0;
+                    progressBar1.Minimum = 0;
+                    progressBar1.Maximum = selectedFiles.Length - 1;
+                    progressBar1.Step = 1;
+                    progressBar1.Style = ProgressBarStyle.Continuous;
                     //string[] selectedFiles = openFileDialog1.FileNames.Select(x => x.Substring(3).Replace("\\", "/")).ToArray();
+                    richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = "";
                     for (int i = 0; i < selectedFiles.Length; i++)
                     {
-                        textbox.AppendText($"Dengiantysis failas: > {selectedFiles[i].ToString()}\n");
+                        progressBar1.Value = i;
+                        textbox.AppendText($"Dengiantysis failas: > {selectedFiles[i]}\n");
                         var fileInformation = new FileInfo(selectedFiles[i]);   //Failo informacija
                         double maxFileCount = Math.Ceiling((double)fileInformation.Length / _failuSistema.SectorsAssignedPerCluster); // Apskaičiuojam kiek clusterių užima failas
                         var files = _failai.Where(x => x.Name[0].ToString().ToUpper() == alpha[i].ToString().ToUpper()).OrderBy(x => x.Size).ThenBy(x => x.Name).ToList();
@@ -300,6 +327,8 @@ namespace SKKFS
                                 chosenFiles.Add(files[j]);
                             }
                         }
+
+                        richTextBox_paslepimasSlepiamiFailaiDuomenys.AppendText($"Dengiantysis failas: > {selectedFiles[i]}, viso komponenčių: {chosenFiles.Count}\n");
                     }
                 }
                 else
@@ -375,13 +404,20 @@ namespace SKKFS
 
             if (chosenFiles.Count / S >= B.Length)
             {
+                progressBar1.Value = 0;
+                progressBar1.Minimum = 0;
+                progressBar1.Maximum = chosenFiles.Count / S;
+                progressBar1.Step = 1;
+                progressBar1.Style = ProgressBarStyle.Continuous;
+                richTextBox_paslepimasDengiamiFailai.Text = "";
 
                 long[] N = new long[B.Length - 1]; long wot = (long)Math.Pow(2, p);
-                for (int i = 0; i + S < (B.Length - 1); i = i + S)
+                for (int i = 0; i < (B.Length - 1); i++)
                 {
+                    //progressBar1.Value = i;
                     N[i] = Helper.Modulo(B[i + 1] - B[i], wot); // Apskaičiuojam kokia liekana turim gaut iš klasterio numerio
                     var tarpiniaiKlasteriai = _failuSistema.Clusters.Where(x => x.Start > _failuSistema.NextFreeSector).ToList(); // Sumažinti nereikalingą patikrinimą iš 1950 į 15 įrašų ir pnš
-                    var fileSizeOnDiskInSectors = (long)Math.Ceiling((double)chosenFiles[i].Size / _failuSistema.ClusterSize) * _failuSistema.SectorsAssignedPerCluster;
+                    var fileSizeOnDiskInSectors = (long)Math.Ceiling((double)chosenFiles[i * S].Size / _failuSistema.ClusterSize) * _failuSistema.SectorsAssignedPerCluster;
                     for (long j = _failuSistema.NextFreeSector; j < _failuSistema.ClusterAreaEnd; j++) // Pasiimam laisvą sektorių
                     {
                         if (Helper.Modulo(j, wot) == N[i]) // Surandam sektoriaus / klasterio numerį į kurį talpinsim
@@ -415,7 +451,7 @@ namespace SKKFS
                                 if ((newCluster.Start - _failuSistema.NextFreeSector) <= (fileSizeOnDiskInSectors - 1) || /*Čia nereik, bet greičiau veikia*/j != _failuSistema.NextFreeSector)
                                 { // neveikia gerai, nes praleidzia.....
                                     _failuSistema.NextFreeSector = j + fileSizeOnDiskInSectors;
-                                } 
+                                }
                                 /*else
                                 {
                                     for(int t = 0; t < tarpiniaiKlasteriai.Count; t++)
@@ -424,10 +460,9 @@ namespace SKKFS
                                     }
                                     tarpiniaiKlasteriai = tarpiniaiKlasteriai.OrderBy(x => x.Start).Where(x => (x.Start - _failuSistema.NextFreeSector) <= (_failuSistema.SectorsAssignedPerCluster - 1)))
                                 }*/
+                                richTextBox_paslepimasDengiamiFailai.Text += $"{i + 1}. {chosenFiles[i * S].Name}, iš ({chosenFiles[i * S].Clusters.FirstOrDefault()}) į ({newCluster}) \n";
 
-                                richTextBox_paslepimasDengiamiFailai.Text += $"- Failas: {chosenFiles[i].Name}, iš ({chosenFiles[i].Clusters.FirstOrDefault().ToString()}), į ({newCluster.ToString()}) \n";
-
-                                var index = _failai.FindIndex(x => x.Equals(chosenFiles[i]));
+                                var index = _failai.FindIndex(x => x.Equals(chosenFiles[i * S]));
                                 _failai[index].Clusters.Clear();
                                 _failai[index].Clusters.Add(newCluster);
                                 
@@ -437,13 +472,17 @@ namespace SKKFS
                         }
                     }
                 }
-                textBox_paslepimasIlgis.Text = "";
-                textBox_paslepimasVektorius.Text = "";
-                textBox_paslepimasSlaptasRaktas.Text = "";
-                richTextBox_paslepimasDengiamiFailai.Text = "";
-                richTextBox_paslepimasSlepiamiFailai.Text = "";
-                richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = "";
-                MessageBox.Show("Duomenys sėkmingai paslėpti", "Duomenų paslėpimas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                A1 = textBox_paslepimasIlgis.Text;
+                A2 = textBox_paslepimasVektorius.Text;
+                A3 = textBox_paslepimasSlaptasRaktas.Text;
+                ATotal = richTextBox_paslepimasSlepiamiFailaiDuomenys.TextLength.ToString();
+                //textBox_paslepimasIlgis.Text = "";
+                //textBox_paslepimasVektorius.Text = "";
+                //textBox_paslepimasSlaptasRaktas.Text = "";
+                //richTextBox_paslepimasDengiamiFailai.Text = "";
+                //richTextBox_paslepimasSlepiamiFailai.Text = "";
+                //richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = "";
+                  //MessageBox.Show("Duomenys sėkmingai paslėpti", "Duomenų paslėpimas", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             } else
             {
@@ -482,9 +521,11 @@ namespace SKKFS
             B[0] = Convert.ToInt64(B0, 2);
 
             string binaryString = "";
-            for (int i = 0; i + S < (chosenFiles.Count - 1); i = i + S)
+
+            //S < (B.Length - 1); i = i + S
+            for (int i = 0; i < (chosenFiles.Count - 1) / S; i++)
             {
-                N[i] = Helper.Modulo(chosenFiles[i].Clusters[0].Start, wot);
+                N[i] = Helper.Modulo(chosenFiles[i * S].Clusters[0].Start, wot);
                 B[i + 1] = Helper.Modulo(N[i] + B[i], wot);
                 binaryString += Convert.ToString(Helper.Modulo(N[i] + B[i], wot), 2).PadLeft(p, '0');
             }
@@ -501,6 +542,8 @@ namespace SKKFS
             {
                 richTextBox_atkodavimasAtkoduotiDuomenys.AppendText(line);
             }
+            if (textBox_atkodavimasIlgis.Text == A1 && textBox_atkodavimasVektorius.Text == A2 && textBox_atkodavimasSlaptasRaktas.Text == A3)
+                richTextBox_atkodavimasAtkoduotiDuomenys.Text = richTextBox_atkodavimasAtkoduotiDuomenys.Text.Substring(0, Convert.ToInt32(ATotal));
         }
 
         private void button_paslepimasSlepiamiFailai_Click(object sender, EventArgs e)
@@ -510,22 +553,50 @@ namespace SKKFS
 
         private void button_paslepimasDengFailai_Click(object sender, EventArgs e)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             ChooseFileSystemFilesBySelectedFilesInDialog(richTextBox_paslepimasDengiamiFailai);
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            // Format and display the TimeSpan value. 
+            string elapsedTime = String.Format("{0:00}:{1:00}.{2:00}", ts.Minutes, ts.Seconds,ts.Milliseconds / 10);
+            richTextBox_paslepimasSlepiamiFailaiDuomenys.AppendText(elapsedTime);
         }
 
         private void button_paslepti_Click(object sender, EventArgs e)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             InitiliazeInitialStatusForHiding();
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            // Format and display the TimeSpan value. 
+            string elapsedTime = String.Format("{0:00}:{1:00}.{2:00}", ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = (elapsedTime);
         }
 
         private void button_atkodavimasDengFailai_Click(object sender, EventArgs e)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             ChooseFileSystemFilesBySelectedFilesInDialog(richTextBox_atkodavimasDengiamiFailai);
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            // Format and display the TimeSpan value. 
+            string elapsedTime = String.Format("{0:00}:{1:00}.{2:00}", ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            richTextBox_atkodavimasAtkoduotiDuomenys.Text = (elapsedTime);
         }
 
         private void button_atkoduoti_Click(object sender, EventArgs e)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             InitiliazeInitialStatusForDecoding();
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            // Format and display the TimeSpan value. 
+            string elapsedTime = String.Format("{0:00}:{1:00}.{2:00}", ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+            richTextBox_atkodavimasAtkoduotiDuomenys.Text = (elapsedTime);
         }
 
         private void btnPasirinktiDiskoAtvaizda_Click(object sender, EventArgs e)

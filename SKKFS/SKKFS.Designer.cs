@@ -66,6 +66,7 @@
             this.btnPasirinktiDiskoAtvaizda = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.richTextBox_pasirinktiDiskoAtvaizda = new System.Windows.Forms.RichTextBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -222,7 +223,7 @@
             this.textBox_paslepimasVektorius.Name = "textBox_paslepimasVektorius";
             this.textBox_paslepimasVektorius.Size = new System.Drawing.Size(227, 27);
             this.textBox_paslepimasVektorius.TabIndex = 7;
-            this.textBox_paslepimasVektorius.Text = "00000000";
+            this.textBox_paslepimasVektorius.Text = "01010110";
             // 
             // label3
             // 
@@ -256,7 +257,7 @@
             this.textBox_paslepimasSlaptasRaktas.Name = "textBox_paslepimasSlaptasRaktas";
             this.textBox_paslepimasSlaptasRaktas.Size = new System.Drawing.Size(227, 27);
             this.textBox_paslepimasSlaptasRaktas.TabIndex = 3;
-            this.textBox_paslepimasSlaptasRaktas.Text = "1";
+            this.textBox_paslepimasSlaptasRaktas.Text = "2";
             // 
             // label1
             // 
@@ -356,7 +357,7 @@
             this.textBox_atkodavimasVektorius.Name = "textBox_atkodavimasVektorius";
             this.textBox_atkodavimasVektorius.Size = new System.Drawing.Size(227, 27);
             this.textBox_atkodavimasVektorius.TabIndex = 7;
-            this.textBox_atkodavimasVektorius.Text = "00000000";
+            this.textBox_atkodavimasVektorius.Text = "01010110";
             // 
             // label7
             // 
@@ -400,7 +401,7 @@
             this.textBox_atkodavimasSlaptasRaktas.Name = "textBox_atkodavimasSlaptasRaktas";
             this.textBox_atkodavimasSlaptasRaktas.Size = new System.Drawing.Size(227, 27);
             this.textBox_atkodavimasSlaptasRaktas.TabIndex = 3;
-            this.textBox_atkodavimasSlaptasRaktas.Text = "1";
+            this.textBox_atkodavimasSlaptasRaktas.Text = "2";
             // 
             // label9
             // 
@@ -463,11 +464,19 @@
             this.richTextBox_pasirinktiDiskoAtvaizda.TabIndex = 0;
             this.richTextBox_pasirinktiDiskoAtvaizda.Text = "";
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(12, 774);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(1132, 24);
+            this.progressBar1.TabIndex = 7;
+            // 
             // SKKFS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1151, 777);
+            this.ClientSize = new System.Drawing.Size(1151, 810);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.tabControl1);
             this.Name = "SKKFS";
             this.Text = "Slaptas kanalas klasterinėje failų struktūroje";
@@ -528,5 +537,6 @@
         private Label label10;
         private RichTextBox richTextBox_pasirinktiDiskoAtvaizda;
         private Button btnNuskaitytiDiskoAtvaizda;
+        private ProgressBar progressBar1;
     }
 }

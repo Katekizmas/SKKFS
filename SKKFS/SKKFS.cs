@@ -255,6 +255,7 @@ namespace SKKFS
                         var cluster = new Klasteris(clusterStart, failai[i].Sectors[j - _failuSistema.SectorsAssignedPerCluster] + _failuSistema.SectorsAssignedPerCluster - 1, "EOF");
 
                         failai[i].Clusters.Add(cluster);
+                        failai[i].Sectors = null;
                     }
                 }
             }
@@ -271,7 +272,8 @@ namespace SKKFS
 
             string strJson = JsonSerializer.Serialize<IList<T>>(list, opt);
 
-            File.WriteAllText($"{_workingDirectory}/{fileName}", strJson);
+            File.WriteAllText($"{fileName}", strJson);
+            //File.WriteAllText($"{_workingDirectory}/{fileName}", strJson);
         }
 
         public void ReadAndSaveFileUsingBinaryTest()
@@ -328,7 +330,7 @@ namespace SKKFS
                             }
                         }
 
-                        richTextBox_paslepimasSlepiamiFailaiDuomenys.AppendText($"Dengiantysis failas: > {selectedFiles[i]}, viso komponenčių: {chosenFiles.Count}\n");
+                        //richTextBox_paslepimasSlepiamiFailaiDuomenys.AppendText($"Dengiantysis failas: > {selectedFiles[i]}, viso komponenčių: {chosenFiles.Count}\n");
                     }
                 }
                 else
@@ -392,7 +394,14 @@ namespace SKKFS
 
             long C = _failuSistema.SectorsAssignedPerCluster;
 
+            ////Check kad ilgis atitiktų p blokų ilgį
+            ///
             string B0 = textBox_paslepimasVektorius.Text;//"00000000"; // Inicilizacijos vektorius, įvedamas
+
+            for (int i = textBox_paslepimasVektorius.Text.Length; i < Int32.Parse(textBox_paslepimasIlgis.Text); i++)
+            {
+                B0 = "0" + B0;
+            }
 
             //var N = // Tarpinių skaičiavimų masyvas, tiksliai nežinau kam, gal laisvi sektoriai, ar jau į kokius klasterius įrašyti tie paslėpti failai
 
@@ -480,9 +489,10 @@ namespace SKKFS
                 //textBox_paslepimasVektorius.Text = "";
                 //textBox_paslepimasSlaptasRaktas.Text = "";
                 //richTextBox_paslepimasDengiamiFailai.Text = "";
-                //richTextBox_paslepimasSlepiamiFailai.Text = "";
-                //richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = "";
-                  //MessageBox.Show("Duomenys sėkmingai paslėpti", "Duomenų paslėpimas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                richTextBox_paslepimasSlepiamiFailai.Text = "";
+                richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = "";
+                //SaveListToJsonFile(_failai, "C:/Users/Paulius/Desktop/atvaizdai/1/Failai-Json.json");
+                MessageBox.Show("Duomenys sėkmingai paslėpti", "Duomenų paslėpimas", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             } else
             {
@@ -510,6 +520,12 @@ namespace SKKFS
             long C = _failuSistema.SectorsAssignedPerCluster;
 
             string B0 = textBox_atkodavimasVektorius.Text;//"00000000"; // Inicilizacijos vektorius, įvedamas
+
+            for (int i = textBox_atkodavimasVektorius.Text.Length; i < Int32.Parse(textBox_atkodavimasIlgis.Text); i++)
+            {
+                B0 = "0" + B0;
+            }
+
 
             //var N = // Tarpinių skaičiavimų masyvas, tiksliai nežinau kam, gal laisvi sektoriai, ar jau į kokius klasterius įrašyti tie paslėpti failai
 
@@ -560,7 +576,7 @@ namespace SKKFS
             TimeSpan ts = stopWatch.Elapsed;
             // Format and display the TimeSpan value. 
             string elapsedTime = String.Format("{0:00}:{1:00}.{2:00}", ts.Minutes, ts.Seconds,ts.Milliseconds / 10);
-            richTextBox_paslepimasSlepiamiFailaiDuomenys.AppendText(elapsedTime);
+            //richTextBox_paslepimasSlepiamiFailaiDuomenys.AppendText(elapsedTime);
         }
 
         private void button_paslepti_Click(object sender, EventArgs e)
@@ -572,7 +588,7 @@ namespace SKKFS
             TimeSpan ts = stopWatch.Elapsed;
             // Format and display the TimeSpan value. 
             string elapsedTime = String.Format("{0:00}:{1:00}.{2:00}", ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-            richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = (elapsedTime);
+            //richTextBox_paslepimasSlepiamiFailaiDuomenys.Text = (elapsedTime);
         }
 
         private void button_atkodavimasDengFailai_Click(object sender, EventArgs e)
@@ -584,7 +600,7 @@ namespace SKKFS
             TimeSpan ts = stopWatch.Elapsed;
             // Format and display the TimeSpan value. 
             string elapsedTime = String.Format("{0:00}:{1:00}.{2:00}", ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-            richTextBox_atkodavimasAtkoduotiDuomenys.Text = (elapsedTime);
+            //richTextBox_atkodavimasAtkoduotiDuomenys.Text = (elapsedTime);
         }
 
         private void button_atkoduoti_Click(object sender, EventArgs e)
@@ -596,7 +612,7 @@ namespace SKKFS
             TimeSpan ts = stopWatch.Elapsed;
             // Format and display the TimeSpan value. 
             string elapsedTime = String.Format("{0:00}:{1:00}.{2:00}", ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-            richTextBox_atkodavimasAtkoduotiDuomenys.Text = (elapsedTime);
+            //richTextBox_atkodavimasAtkoduotiDuomenys.Text = (elapsedTime);
         }
 
         private void btnPasirinktiDiskoAtvaizda_Click(object sender, EventArgs e)
